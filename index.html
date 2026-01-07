@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectivity Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-square {
+            width: 120px;
+            height: 120px;
+            background-color: #e0e0e0;
+            border: 2px solid #d0d0d0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .settings-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .settings-icon:hover {
+            opacity: 1;
+        }
+
+        .status-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .status-indicator.online {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .status-indicator.offline {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-square">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364-6.364l-4.243 4.243m-4.242 0L5.636 5.636m12.728 12.728l-4.243-4.243m-4.242 0l-4.243 4.243"></path>
+            </svg>
+        </div>
+    </div>
+
+    <div class="status-indicator offline" id="statusIndicator">
+        <span class="status-dot"></span>
+        <span id="statusText">Checking...</span>
+    </div>
+
+    <script>
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+
+        async function checkConnectivity() {
+            try {
+                // Fetch the healthcheck file with no caching
+                const response = await fetch('healthcheck.txt', {
+                    cache: 'no-store',
+                    method: 'GET'
+                });
+                
+                if (response.ok) {
+                    // Read the actual content of the file
+                    const text = await response.text();
+                    const trimmedText = text.trim();
+                    
+                    // Only show Online if the content is exactly "OK"
+                    if (trimmedText === 'OK') {
+                        statusIndicator.classList.remove('offline');
+                        statusIndicator.classList.add('online');
+                        statusText.textContent = 'Online';
+                    } else {
+                        // File exists but content is not "OK" - show offline
+                        statusIndicator.classList.remove('online');
+                        statusIndicator.classList.add('offline');
+                        statusText.textContent = 'Offline';
+                    }
+                } else {
+                    // File not found or error response
+                    throw new Error('File not found');
+                }
+            } catch (error) {
+                // File doesn't exist, network error, or any other error - show offline
+                statusIndicator.classList.remove('online');
+                statusIndicator.classList.add('offline');
+                statusText.textContent = 'Offline';
+            }
+        }
+
+        // Check connectivity immediately
+        checkConnectivity();
+
+        // Check connectivity every 10 seconds
+        setInterval(checkConnectivity, 10000);
+    </script>
+</body>
+</html>
+
