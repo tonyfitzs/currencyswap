@@ -147,9 +147,10 @@
     const statusText = document.getElementById("statusText");
     const debugLine = document.getElementById("debugLine");
 
-    let isOnline = null;      // null = unknown, true/false = known
-    let failCount = 0;        // consecutive probe failures
-    let inFlight = false;     // prevents overlapping fetches
+    let isOnline = null;         // null = unknown, true/false = known
+    let inFlight = false;        // prevents overlapping fetches
+    let offlineSince = null;     // timestamp when failures started
+    const OFFLINE_GRACE_MS = 10000;
 
     function setStatus(state, label, debug = "") {
       statusIndicator.classList.remove("online", "offline", "checking");
@@ -169,10 +170,7 @@
         });
 
         clearTimeout(timeoutId);
-
-        if (!res.ok) return false;
-        const text = (await res.text()).trim().toLowerCase();
-        return text.includes("ok");
+        return res.ok; // <-- any HTTP 200 means online
       } catch (e) {
         clearTimeout(timeoutId);
         return false;
@@ -183,34 +181,41 @@
       if (inFlight) return;
       inFlight = true;
 
-      // If the browser *knows* it's offline, treat that as definitive.
+      // If the browser *knows* it's offline, treat that as definitive immediately.
       if (!navigator.onLine) {
         isOnline = false;
-        failCount = 0;
+        offlineSince = null;
         setStatus("offline", "Offline", `reason=${reason} (navigator.offline)`);
         inFlight = false;
         return;
       }
 
-      // Otherwise, probe real reachability.
+      // Probe reachability.
       setStatus("checking", "Checking…", `reason=${reason} (probing)`);
 
       const ok = await probeInternet();
 
       if (ok) {
         isOnline = true;
-        failCount = 0;
+        offlineSince = null;
         setStatus("online", "Online", `reason=${reason} (probe ok)`);
       } else {
-        failCount++;
+        // Start grace timer on first failure
+        if (!offlineSince) offlineSince = Date.now();
 
-        // 2 consecutive failures before declaring offline
-        if (failCount >= 2) {
+        const elapsed = Date.now() - offlineSince;
+        const remaining = Math.max(0, OFFLINE_GRACE_MS - elapsed);
+
+        if (elapsed >= OFFLINE_GRACE_MS) {
           isOnline = false;
-          setStatus("offline", "Offline", `reason=${reason} (failCount=${failCount})`);
+          setStatus("offline", "Offline", `reason=${reason} (grace elapsed)`);
         } else {
-          // First failure: remain in checking state
-          setStatus("checking", "Checking…", `reason=${reason} (failCount=${failCount})`);
+          // During grace period show Checking, not Offline
+          setStatus(
+            "checking",
+            "Checking…",
+            `reason=${reason} (offline grace ${Math.ceil(remaining / 1000)}s)`
+          );
         }
       }
 
@@ -221,7 +226,7 @@
     window.addEventListener("online", () => updateConnectivity("event-online"));
     window.addEventListener("offline", () => {
       isOnline = false;
-      failCount = 0;
+      offlineSince = null;
       setStatus("offline", "Offline", "reason=event-offline");
     });
 
