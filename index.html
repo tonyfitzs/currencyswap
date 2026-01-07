@@ -2,249 +2,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1F6F6A" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Here2Home</title>
 
-  <!-- Keep file references exactly as-is -->
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="stylesheet" href="./styles.css" />
+  <!-- App Icons -->
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-  <!-- Minor inline polish only (non-breaking) -->
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
   <style>
-    /* Light layout polish without touching your styles.css */
-    .hero {
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #6a78d1, #7e64c3);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      background: #fdfaf6;
+      border-radius: 24px;
+      padding: 32px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
       text-align: center;
-      gap: 10px;
-      margin-top: 10px;
     }
 
-    .hero .tagline {
-      font-size: 1.05em;
-      line-height: 1.6;
-      color: var(--text-2);
-      margin-top: 6px;
-      margin-bottom: 18px;
-      max-width: 36ch;
+    .logo {
+      width: 160px;
+      height: auto;
+      margin-bottom: 16px;
     }
 
-    .hero .divider {
-      width: 70px;
-      height: 4px;
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      color: #1e6f63;
+    }
+
+    .subtitle {
+      color: #555;
+      margin: 12px 0 28px;
+      font-size: 16px;
+    }
+
+    .status {
+      margin-top: 24px;
+      padding: 14px 18px;
       border-radius: 999px;
-      background: rgba(31, 111, 106, 0.25);
-      margin: 10px auto 6px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-block;
+      transition: background 0.3s ease;
     }
 
-    .micro-note {
-      font-size: 0.9em;
-      color: var(--text-2);
-      text-align: center;
-      margin-top: -8px;
-      margin-bottom: 18px;
+    .online {
+      background: #d9f4df;
+      color: #1b7f45;
     }
 
-    .micro-note a {
-      color: var(--primary);
-      text-decoration: underline;
-    }
-
-    .form-shell {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      width: 100%;
-    }
-
-    .result-shell {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-    }
-
-    /* Slightly nicer result emphasis without changing your JS */
-    #output strong {
-      font-size: 1.05em;
-    }
-
-    /* Keep settings icon clickable area consistent */
-    .settings-icon {
-      touch-action: manipulation;
+    .offline {
+      background: #fde2e2;
+      color: #9c1c1c;
     }
   </style>
 </head>
 
 <body>
-  <!-- Top-left connectivity indicator required by app.js -->
-  <div id="connectivityStatus" class="connectivity-status">Online</div>
 
-  <main class="card" role="main">
-    <!-- Settings icon required by app.js -->
-    <div class="settings-icon" id="settingsIcon" title="Settings" aria-label="Settings">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
-        <path d="M12 2L13.5 6.5L18 5L16.5 9.5L21 12L16.5 14.5L18 19L13.5 17.5L12 22L10.5 17.5L6 19L7.5 14.5L3 12L7.5 9.5L6 5L10.5 6.5L12 2Z"
-              stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+  <div class="app-container">
+    <img src="hear2home_logo.png" alt="Here2Home Logo" class="logo">
+
+    <h1>Here2Home</h1>
+
+    <div class="subtitle">
+      Instantly understand what things cost back home.
     </div>
 
-    <!-- HERO -->
-    <section class="hero" aria-label="App intro">
-      <!-- Keep logo reference exactly as-is -->
-      <img src="./hear2home_logo.png" alt="Here2Home Logo" class="logo" />
-
-      <div class="divider" aria-hidden="true"></div>
-
-      <h1>Here2Home</h1>
-
-      <!-- Required by app.js -->
-      <p class="home-country-display" id="homeCountryDisplay">Your home country is currently Australia.</p>
-
-      <p class="micro-note">
-        To change your home currency tap <a href="#" id="settingsLink" class="settings-link">here</a>
-      </p>
-
-      <p class="tagline">
-        Type a local price and instantly see what it costs back home.
-      </p>
-    </section>
-
-    <!-- FORM -->
-    <form class="form-shell" autocomplete="off" inputmode="decimal">
-      <div class="form-group">
-        <label for="amount" id="amountLabel">Amount</label>
-        <input
-          type="number"
-          id="amount"
-          inputmode="decimal"
-          placeholder="Enter amount"
-          step="0.01"
-          min="0"
-        />
-      </div>
-
-      <div class="result-shell">
-        <div class="result" id="output">
-          <strong>Amount in home currency:</strong>
-        </div>
-
-        <!-- Status pill required by app.js -->
-        <div id="status" class="status online">Online — cached for offline use</div>
-
-        <!-- Last updated element required by app.js (hidden by CSS) -->
-        <div id="lastUpdated" style="font-size: 0.75em; color: var(--text-2); text-align: center; margin-top: 8px;"></div>
-
-        <!-- Exchange rate message required by app.js -->
-        <div id="exchangeRateMessage" class="exchange-rate-message" style="display: none;"></div>
-      </div>
-    </form>
-  </main>
-
-  <!-- Update banner required by app.js -->
-  <div id="updateBanner" class="update-banner">Update available — refresh</div>
-
-  <!-- SETTINGS MODAL (structure preserved exactly for app.js) -->
-  <div class="modal" id="settingsModal" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-label="User settings">
-      <div class="modal-header">
-        <h2>User settings</h2>
-        <button class="close-btn" id="closeModal" aria-label="Close settings">&times;</button>
-      </div>
-
-      <!-- Settings Menu -->
-      <div id="settingsMenu" class="settings-menu">
-        <button type="button" class="settings-option" id="updateExchangeBtn">Update exchange database</button>
-        <button type="button" class="settings-option" id="colorSchemeBtn">Choose different color scheme</button>
-        <button type="button" class="settings-option" id="updateHomeCountryBtn">Update home country</button>
-        <button type="button" class="settings-back-btn" id="cancelSettingsBtn">Cancel</button>
-      </div>
-
-      <!-- Update Exchange Database Section -->
-      <div id="updateExchangeSection" class="settings-section" style="display: none;">
-        <h3>Update Exchange Database</h3>
-        <p>Fetch the latest exchange rates from the server.</p>
-        <button type="button" class="settings-action-btn" id="updateExchangeActionBtn">Update Now</button>
-        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
-      </div>
-
-      <!-- Color Scheme Section -->
-      <div id="colorSchemeSection" class="settings-section" style="display: none;">
-        <h3>Choose Color Scheme</h3>
-        <p>Select a color theme for the app.</p>
-        <div class="form-group">
-          <label for="colorSchemeSelect">Color Scheme</label>
-          <select id="colorSchemeSelect">
-            <option value="default">Default</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-          </select>
-        </div>
-        <button type="button" class="settings-action-btn" id="saveColorSchemeBtn">Save</button>
-        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
-      </div>
-
-      <!-- Update Home Country Section -->
-      <div id="updateHomeCountrySection" class="settings-section" style="display: none;">
-        <h3>Update Home Country</h3>
-        <div class="form-group">
-          <label for="homeCurrencySelect">Select Your Home Country</label>
-          <select id="homeCurrencySelect">
-            <option value="AUD">Australia - Australian Dollar (AUD)</option>
-            <option value="USD">United States - US Dollar (USD)</option>
-            <option value="GBP">United Kingdom - British Pound (GBP)</option>
-            <option value="CAD">Canada - Canadian Dollar (CAD)</option>
-            <option value="JPY">Japan - Japanese Yen (JPY)</option>
-            <option value="CNY">China - Chinese Yuan (CNY)</option>
-            <option value="INR">India - Indian Rupee (INR)</option>
-            <option value="EUR">Germany - Euro (EUR)</option>
-            <option value="CHF">Switzerland - Swiss Franc (CHF)</option>
-            <option value="SEK">Sweden - Swedish Krona (SEK)</option>
-            <option value="NOK">Norway - Norwegian Krone (NOK)</option>
-            <option value="DKK">Denmark - Danish Krone (DKK)</option>
-            <option value="PLN">Poland - Polish Zloty (PLN)</option>
-            <option value="RUB">Russia - Russian Ruble (RUB)</option>
-            <option value="TRY">Turkey - Turkish Lira (TRY)</option>
-            <option value="KRW">South Korea - South Korean Won (KRW)</option>
-            <option value="SGD">Singapore - Singapore Dollar (SGD)</option>
-            <option value="HKD">Hong Kong - Hong Kong Dollar (HKD)</option>
-            <option value="THB">Thailand - Thai Baht (THB)</option>
-            <option value="MYR">Malaysia - Malaysian Ringgit (MYR)</option>
-            <option value="IDR">Indonesia - Indonesian Rupiah (IDR)</option>
-            <option value="PHP">Philippines - Philippine Peso (PHP)</option>
-            <option value="VND">Vietnam - Vietnamese Dong (VND)</option>
-            <option value="NZD">New Zealand - New Zealand Dollar (NZD)</option>
-            <option value="BRL">Brazil - Brazilian Real (BRL)</option>
-            <option value="MXN">Mexico - Mexican Peso (MXN)</option>
-            <option value="ARS">Argentina - Argentine Peso (ARS)</option>
-            <option value="ZAR">South Africa - South African Rand (ZAR)</option>
-            <option value="ILS">Israel - Israeli Shekel (ILS)</option>
-            <option value="AED">United Arab Emirates - UAE Dirham (AED)</option>
-            <option value="SAR">Saudi Arabia - Saudi Riyal (SAR)</option>
-            <option value="EGP">Egypt - Egyptian Pound (EGP)</option>
-            <option value="NGN">Nigeria - Nigerian Naira (NGN)</option>
-            <option value="KES">Kenya - Kenyan Shilling (KES)</option>
-            <option value="PKR">Pakistan - Pakistani Rupee (PKR)</option>
-            <option value="BDT">Bangladesh - Bangladeshi Taka (BDT)</option>
-            <option value="LKR">Sri Lanka - Sri Lankan Rupee (LKR)</option>
-            <option value="NPR">Nepal - Nepalese Rupee (NPR)</option>
-            <option value="CZK">Czech Republic - Czech Koruna (CZK)</option>
-            <option value="HUF">Hungary - Hungarian Forint (HUF)</option>
-          </select>
-        </div>
-        <button type="button" class="settings-action-btn" id="changeCurrencyBtn">Update</button>
-        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
-      </div>
+    <div id="statusIndicator" class="status offline">
+      Checking connectivity…
     </div>
   </div>
 
-  <!-- Keep file reference exactly as-is -->
-  <script src="./app.js"></script>
+<script>
+  const HEALTHCHECK_URL = 'healthcheck.txt';
+  const LAST_UPDATE_KEY = 'lastRateUpdate';
+  const CHECK_INTERVAL = 10000; // 10 seconds
+
+  const statusEl = document.getElementById('statusIndicator');
+
+  function formatLocalTime(timestamp) {
+    if (!timestamp) return 'unknown';
+    return new Date(timestamp).toLocaleString();
+  }
+
+  function setOnline() {
+    const now = Date.now();
+    localStorage.setItem(LAST_UPDATE_KEY, now);
+
+    statusEl.className = 'status online';
+    statusEl.textContent = 'Online — rates up to date';
+  }
+
+  function setOffline() {
+    const lastUpdate = localStorage.getItem(LAST_UPDATE_KEY);
+    const formattedTime = formatLocalTime(lastUpdate);
+
+    statusEl.className = 'status offline';
+    statusEl.textContent =
+      `Offline — last rate update ${formattedTime} — using cached rates`;
+  }
+
+  async function checkConnectivity() {
+    try {
+      const response = await fetch(HEALTHCHECK_URL, {
+        cache: 'no-store'
+      });
+
+      const text = await response.text();
+
+      if (response.ok && text.trim().toLowerCase() === 'ok') {
+        setOnline();
+      } else {
+        setOffline();
+      }
+
+    } catch (err) {
+      setOffline();
+    }
+  }
+
+  // Initial check
+  checkConnectivity();
+
+  // Periodic checks
+  setInterval(checkConnectivity, CHECK_INTERVAL);
+</script>
+
 </body>
 </html>
