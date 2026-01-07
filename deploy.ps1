@@ -1,6 +1,6 @@
 param(
-  [Parameter(Mandatory=$true)]
-  [string]$Message
+  [Parameter(Mandatory=$false)]
+  [string]$Message = "Update project"
 )
 
 Set-StrictMode -Version Latest

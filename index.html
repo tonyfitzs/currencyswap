@@ -2,239 +2,249 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Connectivity Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1F6F6A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
+  <title>Here2Home</title>
+
+  <!-- Keep file references exactly as-is -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Minor inline polish only (non-breaking) -->
   <style>
-    :root {
-      --bg: #f5f5f5;
-      --card: #ffffff;
-      --shadow: rgba(0,0,0,0.12);
-      --border: rgba(0,0,0,0.12);
-      --text: #222;
-      --muted: #666;
-
-      --online: #2ecc71;
-      --offline: #ff4d4d;
-      --checking: #777;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-    }
-
-    body {
+    /* Light layout polish without touching your styles.css */
+    .hero {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding:
-        env(safe-area-inset-top)
-        env(safe-area-inset-right)
-        env(safe-area-inset-bottom)
-        env(safe-area-inset-left);
+      text-align: center;
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .container {
+    .hero .tagline {
+      font-size: 1.05em;
+      line-height: 1.6;
+      color: var(--text-2);
+      margin-top: 6px;
+      margin-bottom: 18px;
+      max-width: 36ch;
+    }
+
+    .hero .divider {
+      width: 70px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(31, 111, 106, 0.25);
+      margin: 10px auto 6px;
+    }
+
+    .micro-note {
+      font-size: 0.9em;
+      color: var(--text-2);
+      text-align: center;
+      margin-top: -8px;
+      margin-bottom: 18px;
+    }
+
+    .micro-note a {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .form-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       width: 100%;
-      max-width: 420px;
-      padding: 20px;
-      box-sizing: border-box;
     }
 
-    .card {
-      background: var(--card);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px var(--shadow);
-      padding: 24px;
-      position: relative;
-      border: 1px solid var(--border);
-    }
-
-    .logo-box {
-      width: 110px;
-      height: 140px;
-      border-radius: 12px;
-      background: #e9e9e9;
-      margin: 0 auto 18px auto;
+    .result-shell {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      color: #444;
-      position: relative;
-      user-select: none;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
     }
 
-    .settings {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #fff;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #333;
+    /* Slightly nicer result emphasis without changing your JS */
+    #output strong {
+      font-size: 1.05em;
     }
 
-    .title {
-      text-align: center;
-      margin: 0 0 6px 0;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    .subtitle {
-      text-align: center;
-      margin: 0 0 18px 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .status-indicator {
-      margin-top: 18px;
-      border-radius: 14px;
-      padding: 14px 16px;
-      text-align: center;
-      font-weight: 700;
-      color: #fff;
-      user-select: none;
-    }
-
-    .status-indicator.online { background: var(--online); }
-    .status-indicator.offline { background: var(--offline); }
-    .status-indicator.checking { background: var(--checking); }
-
-    .small {
-      margin-top: 8px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
+    /* Keep settings icon clickable area consistent */
+    .settings-icon {
+      touch-action: manipulation;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="card">
-      <button class="settings" type="button" title="Settings" aria-label="Settings">⚙️</button>
+  <!-- Top-left connectivity indicator required by app.js -->
+  <div id="connectivityStatus" class="connectivity-status">Online</div>
 
-      <div class="logo-box" aria-label="Logo placeholder">✳</div>
+  <main class="card" role="main">
+    <!-- Settings icon required by app.js -->
+    <div class="settings-icon" id="settingsIcon" title="Settings" aria-label="Settings">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+        <path d="M12 2L13.5 6.5L18 5L16.5 9.5L21 12L16.5 14.5L18 19L13.5 17.5L12 22L10.5 17.5L6 19L7.5 14.5L3 12L7.5 9.5L6 5L10.5 6.5L12 2Z"
+              stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
 
-      <h1 class="title">Connectivity Test</h1>
-      <p class="subtitle">Checks real internet access via <code>healthcheck.txt</code></p>
+    <!-- HERO -->
+    <section class="hero" aria-label="App intro">
+      <!-- Keep logo reference exactly as-is -->
+      <img src="./hear2home_logo.png" alt="Here2Home Logo" class="logo" />
 
-      <div class="status-indicator checking" id="statusIndicator">
-        <span id="statusText">Checking…</span>
+      <div class="divider" aria-hidden="true"></div>
+
+      <h1>Here2Home</h1>
+
+      <!-- Required by app.js -->
+      <p class="home-country-display" id="homeCountryDisplay">Your home country is currently Australia.</p>
+
+      <p class="micro-note">
+        To change your home currency tap <a href="#" id="settingsLink" class="settings-link">here</a>
+      </p>
+
+      <p class="tagline">
+        Type a local price and instantly see what it costs back home.
+      </p>
+    </section>
+
+    <!-- FORM -->
+    <form class="form-shell" autocomplete="off" inputmode="decimal">
+      <div class="form-group">
+        <label for="amount" id="amountLabel">Amount</label>
+        <input
+          type="number"
+          id="amount"
+          inputmode="decimal"
+          placeholder="Enter amount"
+          step="0.01"
+          min="0"
+        />
       </div>
 
-      <div class="small" id="debugLine"></div>
+      <div class="result-shell">
+        <div class="result" id="output">
+          <strong>Amount in home currency:</strong>
+        </div>
+
+        <!-- Status pill required by app.js -->
+        <div id="status" class="status online">Online — cached for offline use</div>
+
+        <!-- Last updated element required by app.js (hidden by CSS) -->
+        <div id="lastUpdated" style="font-size: 0.75em; color: var(--text-2); text-align: center; margin-top: 8px;"></div>
+
+        <!-- Exchange rate message required by app.js -->
+        <div id="exchangeRateMessage" class="exchange-rate-message" style="display: none;"></div>
+      </div>
+    </form>
+  </main>
+
+  <!-- Update banner required by app.js -->
+  <div id="updateBanner" class="update-banner">Update available — refresh</div>
+
+  <!-- SETTINGS MODAL (structure preserved exactly for app.js) -->
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-label="User settings">
+      <div class="modal-header">
+        <h2>User settings</h2>
+        <button class="close-btn" id="closeModal" aria-label="Close settings">&times;</button>
+      </div>
+
+      <!-- Settings Menu -->
+      <div id="settingsMenu" class="settings-menu">
+        <button type="button" class="settings-option" id="updateExchangeBtn">Update exchange database</button>
+        <button type="button" class="settings-option" id="colorSchemeBtn">Choose different color scheme</button>
+        <button type="button" class="settings-option" id="updateHomeCountryBtn">Update home country</button>
+        <button type="button" class="settings-back-btn" id="cancelSettingsBtn">Cancel</button>
+      </div>
+
+      <!-- Update Exchange Database Section -->
+      <div id="updateExchangeSection" class="settings-section" style="display: none;">
+        <h3>Update Exchange Database</h3>
+        <p>Fetch the latest exchange rates from the server.</p>
+        <button type="button" class="settings-action-btn" id="updateExchangeActionBtn">Update Now</button>
+        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
+      </div>
+
+      <!-- Color Scheme Section -->
+      <div id="colorSchemeSection" class="settings-section" style="display: none;">
+        <h3>Choose Color Scheme</h3>
+        <p>Select a color theme for the app.</p>
+        <div class="form-group">
+          <label for="colorSchemeSelect">Color Scheme</label>
+          <select id="colorSchemeSelect">
+            <option value="default">Default</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </div>
+        <button type="button" class="settings-action-btn" id="saveColorSchemeBtn">Save</button>
+        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
+      </div>
+
+      <!-- Update Home Country Section -->
+      <div id="updateHomeCountrySection" class="settings-section" style="display: none;">
+        <h3>Update Home Country</h3>
+        <div class="form-group">
+          <label for="homeCurrencySelect">Select Your Home Country</label>
+          <select id="homeCurrencySelect">
+            <option value="AUD">Australia - Australian Dollar (AUD)</option>
+            <option value="USD">United States - US Dollar (USD)</option>
+            <option value="GBP">United Kingdom - British Pound (GBP)</option>
+            <option value="CAD">Canada - Canadian Dollar (CAD)</option>
+            <option value="JPY">Japan - Japanese Yen (JPY)</option>
+            <option value="CNY">China - Chinese Yuan (CNY)</option>
+            <option value="INR">India - Indian Rupee (INR)</option>
+            <option value="EUR">Germany - Euro (EUR)</option>
+            <option value="CHF">Switzerland - Swiss Franc (CHF)</option>
+            <option value="SEK">Sweden - Swedish Krona (SEK)</option>
+            <option value="NOK">Norway - Norwegian Krone (NOK)</option>
+            <option value="DKK">Denmark - Danish Krone (DKK)</option>
+            <option value="PLN">Poland - Polish Zloty (PLN)</option>
+            <option value="RUB">Russia - Russian Ruble (RUB)</option>
+            <option value="TRY">Turkey - Turkish Lira (TRY)</option>
+            <option value="KRW">South Korea - South Korean Won (KRW)</option>
+            <option value="SGD">Singapore - Singapore Dollar (SGD)</option>
+            <option value="HKD">Hong Kong - Hong Kong Dollar (HKD)</option>
+            <option value="THB">Thailand - Thai Baht (THB)</option>
+            <option value="MYR">Malaysia - Malaysian Ringgit (MYR)</option>
+            <option value="IDR">Indonesia - Indonesian Rupiah (IDR)</option>
+            <option value="PHP">Philippines - Philippine Peso (PHP)</option>
+            <option value="VND">Vietnam - Vietnamese Dong (VND)</option>
+            <option value="NZD">New Zealand - New Zealand Dollar (NZD)</option>
+            <option value="BRL">Brazil - Brazilian Real (BRL)</option>
+            <option value="MXN">Mexico - Mexican Peso (MXN)</option>
+            <option value="ARS">Argentina - Argentine Peso (ARS)</option>
+            <option value="ZAR">South Africa - South African Rand (ZAR)</option>
+            <option value="ILS">Israel - Israeli Shekel (ILS)</option>
+            <option value="AED">United Arab Emirates - UAE Dirham (AED)</option>
+            <option value="SAR">Saudi Arabia - Saudi Riyal (SAR)</option>
+            <option value="EGP">Egypt - Egyptian Pound (EGP)</option>
+            <option value="NGN">Nigeria - Nigerian Naira (NGN)</option>
+            <option value="KES">Kenya - Kenyan Shilling (KES)</option>
+            <option value="PKR">Pakistan - Pakistani Rupee (PKR)</option>
+            <option value="BDT">Bangladesh - Bangladeshi Taka (BDT)</option>
+            <option value="LKR">Sri Lanka - Sri Lankan Rupee (LKR)</option>
+            <option value="NPR">Nepal - Nepalese Rupee (NPR)</option>
+            <option value="CZK">Czech Republic - Czech Koruna (CZK)</option>
+            <option value="HUF">Hungary - Hungarian Forint (HUF)</option>
+          </select>
+        </div>
+        <button type="button" class="settings-action-btn" id="changeCurrencyBtn">Update</button>
+        <button type="button" class="settings-back-btn" onclick="showSettingsMenu()">Back</button>
+      </div>
     </div>
   </div>
 
-  <script>
-    const statusIndicator = document.getElementById("statusIndicator");
-    const statusText = document.getElementById("statusText");
-    const debugLine = document.getElementById("debugLine");
-
-    let isOnline = null;         // null = unknown, true/false = known
-    let inFlight = false;        // prevents overlapping fetches
-    let offlineSince = null;     // timestamp when failures started
-    const OFFLINE_GRACE_MS = 10000;
-
-    function setStatus(state, label, debug = "") {
-      statusIndicator.classList.remove("online", "offline", "checking");
-      statusIndicator.classList.add(state);
-      statusText.textContent = label;
-      debugLine.textContent = debug;
-    }
-
-    async function probeInternet() {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
-
-      try {
-        const res = await fetch("./healthcheck.txt?t=" + Date.now(), {
-          cache: "no-store",
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-        return res.ok; // <-- any HTTP 200 means online
-      } catch (e) {
-        clearTimeout(timeoutId);
-        return false;
-      }
-    }
-
-    async function updateConnectivity(reason) {
-      if (inFlight) return;
-      inFlight = true;
-
-      // If the browser *knows* it's offline, treat that as definitive immediately.
-      if (!navigator.onLine) {
-        isOnline = false;
-        offlineSince = null;
-        setStatus("offline", "Offline", `reason=${reason} (navigator.offline)`);
-        inFlight = false;
-        return;
-      }
-
-      // Probe reachability.
-      setStatus("checking", "Checking…", `reason=${reason} (probing)`);
-
-      const ok = await probeInternet();
-
-      if (ok) {
-        isOnline = true;
-        offlineSince = null;
-        setStatus("online", "Online", `reason=${reason} (probe ok)`);
-      } else {
-        // Start grace timer on first failure
-        if (!offlineSince) offlineSince = Date.now();
-
-        const elapsed = Date.now() - offlineSince;
-        const remaining = Math.max(0, OFFLINE_GRACE_MS - elapsed);
-
-        if (elapsed >= OFFLINE_GRACE_MS) {
-          isOnline = false;
-          setStatus("offline", "Offline", `reason=${reason} (grace elapsed)`);
-        } else {
-          // During grace period show Checking, not Offline
-          setStatus(
-            "checking",
-            "Checking…",
-            `reason=${reason} (offline grace ${Math.ceil(remaining / 1000)}s)`
-          );
-        }
-      }
-
-      inFlight = false;
-    }
-
-    // Events
-    window.addEventListener("online", () => updateConnectivity("event-online"));
-    window.addEventListener("offline", () => {
-      isOnline = false;
-      offlineSince = null;
-      setStatus("offline", "Offline", "reason=event-offline");
-    });
-
-    // Poll every 10 seconds
-    setInterval(() => updateConnectivity("poll"), 10000);
-
-    // Initial
-    updateConnectivity("startup");
-  </script>
+  <!-- Keep file reference exactly as-is -->
+  <script src="./app.js"></script>
 </body>
 </html>

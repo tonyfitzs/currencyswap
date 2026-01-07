@@ -1,0 +1,13 @@
+# Project Rules for Currency Swap
+
+## Deployment Instructions
+When the user says "deploy", "deploy github", "commit", or "commit changes", automatically run:
+```
+powershell -ExecutionPolicy Bypass -File deploy.ps1 -Message "<descriptive message about changes>"
+```
+
+The commit message should describe what changes were made (e.g., "Update connectivity checking", "Fix currency conversion bug", "Add new feature X").
+
+## Project Context
+This is a currency swap web application with connectivity checking functionality.
+
