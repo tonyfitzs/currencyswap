@@ -1,0 +1,19 @@
+App Name: Convertr
+Tagline: Know What It Costs.
+
+Short Description:
+A fast, location-aware currency conversion app that shows you what prices really mean — in your home currency.
+
+Full Description:
+Convertr is the smart way to travel and shop abroad. Just open the app, type in a local price, and instantly see what it costs in your home currency — no dropdowns, no clutter.
+
+It automatically detects your location and sets the appropriate conversion. No accounts, no ads, no tracking — just instant clarity.
+
+Features:
+• Automatic location-based currency detection
+• One-time home country setup
+• Clean, simple interface
+• Works offline with stored rates
+• Optional manual override
+
+Your privacy matters. We don’t collect or transmit any personal data. Ever.

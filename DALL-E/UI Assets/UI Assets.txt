@@ -1,0 +1,19 @@
+Splash screen (light + dark, with animation notes)
+
+Launch graphics (2048x2732, 1284x2778, 1080x1920)
+
+Onboarding screens:
+
+Step 1: Home country
+
+Step 2: Location access (with disclaimer)
+
+Step 3: Symbol vs code selection
+
+⭐️ Settings menu:
+
+Change home country
+
+Refresh rates
+
+Theme toggle

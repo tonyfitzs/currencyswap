@@ -1,0 +1,7 @@
+Convertr does not collect or transmit any personal or location data to external servers.
+
+Location data is used solely to determine your current currency and is accessed only while the app is open. This data stays on your device and is never stored, shared, or tracked.
+
+We do not use cookies, analytics, or any third-party data collection tools. Your privacy is fully respected.
+
+If you deny location access, Convertr will not function as intended.

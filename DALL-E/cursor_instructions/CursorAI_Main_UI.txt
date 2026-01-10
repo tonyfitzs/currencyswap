@@ -1,0 +1,20 @@
+Build the main UI for Convertr.
+
+Features:
+- Input field for amount in local currency
+- Output field showing value in home currency
+- Live exchange rate shown below output
+- Status badge: “Online” or “Using cached rates”
+- ⭐️ star icon in top-right for settings
+
+Responsive for all iOS and Android phones/tablets.
+
+Dark Theme Colors:
+- Background: #0A0F2C
+- Text: #F8F9FA
+- Accent: #007AFF / #00F0FF
+
+Light Theme Colors:
+- Background: #F8F9FA
+- Text: #1C1C1E
+- Accent: #007AFF / #00A6FF

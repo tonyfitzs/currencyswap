@@ -1,0 +1,9 @@
+By using Convertr, you agree to the following:
+
+1. This app is provided as-is, without warranties or guarantees.
+2. Currency rates may not be 100% up to date and should not be used for trading or legal purposes.
+3. Location access is required for automatic currency detection.
+4. No account or personal data is collected or stored.
+5. You are responsible for verifying important conversions before making financial decisions.
+
+Use of this app implies acceptance of these terms.

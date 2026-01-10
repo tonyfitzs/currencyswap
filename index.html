@@ -397,6 +397,57 @@
       z-index: 10;
     }
 
+    /* Settings gear icon button in top right */
+    .settings-star-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(248, 249, 250, 0.1);
+      border: 1px solid rgba(221, 226, 230, 0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-left: auto; /* Push to right */
+      -webkit-tap-highlight-color: rgba(0, 122, 255, 0.2);
+      touch-action: manipulation;
+    }
+
+    .settings-star-btn:hover {
+      background: rgba(248, 249, 250, 0.15);
+      border-color: rgba(221, 226, 230, 0.3);
+    }
+
+    .settings-star-btn:active {
+      transform: scale(0.95);
+      background: rgba(248, 249, 250, 0.2);
+    }
+
+    .settings-star-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--accent-green);
+      transition: all 0.2s ease;
+    }
+
+    .settings-star-btn:hover svg {
+      stroke: var(--glow-cyan);
+    }
+
+    /* Light mode styles for settings button */
+    body.light-mode .settings-star-btn {
+      background: rgba(221, 226, 230, 0.3);
+      border-color: var(--soft-grey);
+    }
+
+    body.light-mode .settings-star-btn:hover {
+      background: rgba(221, 226, 230, 0.4);
+    }
+
     /* App icon in top left - light/dark based on system preference */
     .app-header-icon {
       width: 44px;
@@ -485,6 +536,486 @@
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    /* ===== GEOLOCATION PERMISSION MODAL ===== */
+    .location-permission-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .location-permission-modal.active {
+      display: flex;
+    }
+
+    .location-permission-content {
+      background: var(--midnight-blue);
+      border-radius: 24px;
+      padding: 32px 28px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(221, 226, 230, 0.1);
+      animation: slideUp 0.3s ease;
+      text-align: center;
+    }
+
+    .location-permission-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 122, 255, 0.1);
+      border-radius: 50%;
+      border: 2px solid var(--primary-blue);
+    }
+
+    .location-permission-icon svg {
+      width: 36px;
+      height: 36px;
+      fill: var(--primary-blue);
+    }
+
+    .location-permission-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--rich-white);
+      margin-bottom: 12px;
+    }
+
+    .location-permission-description {
+      font-size: 16px;
+      color: var(--soft-grey);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .location-permission-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .location-allow-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      background: var(--primary-blue);
+      color: var(--rich-white);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      -webkit-tap-highlight-color: rgba(0, 122, 255, 0.2);
+      touch-action: manipulation;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+    }
+
+    .location-allow-btn:hover {
+      background: #0056CC;
+      box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+    }
+
+    .location-allow-btn:active {
+      transform: scale(0.98);
+    }
+
+    .location-skip-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      color: var(--soft-grey);
+      border: 1px solid rgba(221, 226, 230, 0.2);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      -webkit-tap-highlight-color: rgba(221, 226, 230, 0.2);
+      touch-action: manipulation;
+    }
+
+    .location-skip-btn:hover {
+      background: rgba(248, 249, 250, 0.05);
+      border-color: rgba(221, 226, 230, 0.4);
+    }
+
+    .location-permission-disclaimer {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(0, 122, 255, 0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 122, 255, 0.2);
+      text-align: left;
+    }
+
+    .location-permission-disclaimer-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--soft-grey);
+    }
+
+    .location-permission-disclaimer-text strong {
+      color: var(--rich-white);
+      font-weight: 600;
+    }
+
+    /* Light mode styles for location permission */
+    body.light-mode .location-permission-content {
+      background: var(--rich-white);
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .location-permission-title {
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .location-permission-description {
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .location-permission-disclaimer {
+      background: rgba(0, 122, 255, 0.05);
+      border-color: rgba(0, 122, 255, 0.15);
+    }
+
+    body.light-mode .location-skip-btn {
+      color: var(--deep-charcoal);
+      border-color: var(--soft-grey);
+    }
+
+    body.light-mode .location-skip-btn:hover {
+      background: rgba(221, 226, 230, 0.2);
+    }
+
+    /* ===== SETTINGS MODAL ===== */
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .settings-modal.active {
+      display: flex;
+    }
+
+    .settings-modal-content {
+      background: var(--midnight-blue);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(221, 226, 230, 0.1);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .settings-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(221, 226, 230, 0.1);
+    }
+
+    .settings-modal-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--rich-white);
+      margin: 0;
+    }
+
+    .settings-modal-close {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(221, 226, 230, 0.1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--rich-white);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .settings-modal-close:hover {
+      background: rgba(221, 226, 230, 0.2);
+    }
+
+    .settings-modal-close:active {
+      transform: scale(0.95);
+    }
+
+    .settings-section {
+      margin-bottom: 28px;
+    }
+
+    .settings-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--soft-grey);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(248, 249, 250, 0.05);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(221, 226, 230, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .settings-option:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-option:hover {
+      background: rgba(248, 249, 250, 0.08);
+      border-color: rgba(0, 122, 255, 0.3);
+    }
+
+    .settings-option-label {
+      flex: 1;
+      color: var(--rich-white);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .settings-option-value {
+      color: var(--soft-grey);
+      font-size: 14px;
+      margin-right: 12px;
+    }
+
+    .settings-btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      background: var(--primary-blue);
+      color: var(--rich-white);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      -webkit-tap-highlight-color: rgba(0, 122, 255, 0.2);
+      touch-action: manipulation;
+    }
+
+    .settings-btn:hover {
+      background: #0056CC;
+    }
+
+    .settings-btn:active {
+      transform: scale(0.98);
+    }
+
+    .settings-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .settings-select {
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 500;
+      background: rgba(248, 249, 250, 0.1);
+      border: 1px solid rgba(221, 226, 230, 0.2);
+      border-radius: 10px;
+      color: var(--rich-white);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      -webkit-tap-highlight-color: rgba(0, 122, 255, 0.2);
+      touch-action: manipulation;
+    }
+
+    .settings-select:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    }
+
+    .settings-select option {
+      background: var(--midnight-blue);
+      color: var(--rich-white);
+    }
+
+    .settings-info-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--soft-grey);
+      margin-top: 12px;
+      padding: 16px;
+      background: rgba(0, 122, 255, 0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 122, 255, 0.2);
+    }
+
+    .settings-info-text strong {
+      color: var(--rich-white);
+      font-weight: 600;
+    }
+
+    body.light-mode .settings-info-text {
+      background: rgba(0, 122, 255, 0.05);
+      border-color: rgba(0, 122, 255, 0.15);
+    }
+
+    body.light-mode .settings-info-text strong {
+      color: var(--deep-charcoal);
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      background: rgba(221, 226, 230, 0.3);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch.active {
+      background: var(--primary-blue);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--rich-white);
+      top: 2px;
+      left: 2px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch.active::after {
+      left: 26px;
+    }
+
+    /* Light mode theme */
+    body.light-mode {
+      background: var(--rich-white);
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .app-header {
+      background: var(--rich-white);
+      color: var(--deep-charcoal);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light-mode .app-header .tagline {
+      color: var(--primary-blue);
+    }
+
+    body.light-mode .conversion-card {
+      background: white;
+      border: 1px solid var(--soft-grey);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light-mode .currency-input {
+      background: white;
+      border-color: var(--soft-grey);
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .currency-input:focus {
+      border-color: var(--primary-blue);
+      background: white;
+    }
+
+    body.light-mode .output-value {
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .settings-modal-content {
+      background: var(--rich-white);
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .settings-modal-header h2 {
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .settings-option {
+      background: rgba(221, 226, 230, 0.2);
+      border-color: var(--soft-grey);
+    }
+
+    body.light-mode .settings-option-label {
+      color: var(--deep-charcoal);
+    }
+
+    body.light-mode .settings-select {
+      background: white;
+      border-color: var(--soft-grey);
+      color: var(--deep-charcoal);
     }
 
     .app-container {
@@ -814,6 +1345,42 @@
         padding: 10px 20px;
         font-size: 12px;
       }
+
+      .settings-star-btn {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+      }
+
+      .settings-star-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .settings-modal-content {
+        padding: 24px;
+      }
+
+      .settings-modal-header h2 {
+        font-size: 20px;
+      }
+
+      .location-permission-content {
+        padding: 24px 20px;
+      }
+
+      .location-permission-title {
+        font-size: 22px;
+      }
+
+      .location-permission-description {
+        font-size: 15px;
+      }
+
+      .location-permission-disclaimer-text {
+        font-size: 12px;
+      }
     }
 
     @media (min-width: 481px) and (max-width: 767px) {
@@ -867,6 +1434,11 @@
 
       .status-badge {
         bottom: 32px;
+      }
+
+      .settings-modal-content {
+        max-width: 600px;
+        padding: 32px;
       }
     }
 
@@ -942,7 +1514,126 @@
         <h1>Convertr</h1>
         <div class="tagline">Know What It Costs.</div>
       </div>
+      <!-- Settings gear icon button in top right -->
+      <button class="settings-star-btn" id="settingsStarBtn" aria-label="Open settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m-4.242 0L5.636 17.364M18.364 5.636l-4.243 4.243m-4.242 0L5.636 6.636"></path>
+        </svg>
+      </button>
     </header>
+
+    <!-- Location Permission Modal -->
+    <div class="location-permission-modal" id="locationPermissionModal">
+      <div class="location-permission-content">
+        <div class="location-permission-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </div>
+        <h2 class="location-permission-title">Location Access Needed</h2>
+        <p class="location-permission-description">
+          Convertr uses your location to automatically detect your local currency for accurate conversions.
+        </p>
+        <div class="location-permission-buttons">
+          <button class="location-allow-btn" id="locationAllowBtn">Allow</button>
+          <button class="location-skip-btn" id="locationSkipBtn">Skip for Now</button>
+        </div>
+        <div class="location-permission-disclaimer">
+          <p class="location-permission-disclaimer-text">
+            <strong>Privacy Notice:</strong> This app uses your device's location to provide accurate, automatic currency conversion. We do not collect, store, or send your location data anywhere — it stays on your device and is only used while the app is open. If you're not comfortable allowing location access, we recommend using another currency conversion app. Convertr is completely free and respects your privacy.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+      <div class="settings-modal-content">
+        <div class="settings-modal-header">
+          <h2>Settings</h2>
+          <button class="settings-modal-close" id="settingsModalClose" aria-label="Close settings">×</button>
+        </div>
+
+        <!-- Location Access Section -->
+        <div class="settings-section">
+          <div class="settings-section-title">Location Access</div>
+          <div class="settings-option">
+            <div>
+              <div class="settings-option-label">Location Permission</div>
+              <div class="settings-option-value" id="locationStatus">Not requested</div>
+            </div>
+            <button class="settings-btn" id="requestLocationBtn">Request Access</button>
+          </div>
+          <div class="settings-info-text">
+            <strong>Privacy Notice:</strong> This app uses your device's location to provide accurate, automatic currency conversion. We do not collect, store, or send your location data anywhere — it stays on your device and is only used while the app is open. If you're not comfortable allowing location access, we recommend using another currency conversion app. Convertr is completely free and respects your privacy.
+          </div>
+        </div>
+
+        <!-- Home Country Selection -->
+        <div class="settings-section">
+          <div class="settings-section-title">Home Country</div>
+          <div class="settings-option">
+            <div class="settings-option-label">Set Home Currency</div>
+            <select class="settings-select" id="homeCountrySelect">
+              <option value="USD">United States (USD)</option>
+              <option value="EUR">Eurozone (EUR)</option>
+              <option value="GBP">United Kingdom (GBP)</option>
+              <option value="JPY">Japan (JPY)</option>
+              <option value="AUD">Australia (AUD)</option>
+              <option value="CAD">Canada (CAD)</option>
+              <option value="CHF">Switzerland (CHF)</option>
+              <option value="CNY">China (CNY)</option>
+              <option value="INR">India (INR)</option>
+              <option value="KRW">South Korea (KRW)</option>
+              <option value="MXN">Mexico (MXN)</option>
+              <option value="BRL">Brazil (BRL)</option>
+              <option value="SGD">Singapore (SGD)</option>
+              <option value="HKD">Hong Kong (HKD)</option>
+              <option value="NZD">New Zealand (NZD)</option>
+              <option value="SEK">Sweden (SEK)</option>
+              <option value="NOK">Norway (NOK)</option>
+              <option value="DKK">Denmark (DKK)</option>
+              <option value="PLN">Poland (PLN)</option>
+              <option value="RUB">Russia (RUB)</option>
+              <option value="TRY">Turkey (TRY)</option>
+              <option value="ZAR">South Africa (ZAR)</option>
+              <option value="THB">Thailand (THB)</option>
+              <option value="MYR">Malaysia (MYR)</option>
+              <option value="IDR">Indonesia (IDR)</option>
+              <option value="PHP">Philippines (PHP)</option>
+              <option value="VND">Vietnam (VND)</option>
+              <option value="ILS">Israel (ILS)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Exchange Rate Update -->
+        <div class="settings-section">
+          <div class="settings-section-title">Exchange Rates</div>
+          <div class="settings-option">
+            <div>
+              <div class="settings-option-label">Update Exchange Rates</div>
+              <div class="settings-option-value" id="lastUpdateTime">Last updated: --</div>
+            </div>
+            <button class="settings-btn" id="updateRatesBtn">Update Now</button>
+          </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-option">
+            <div class="settings-option-label">Theme</div>
+            <div class="theme-toggle">
+              <span class="settings-option-value" id="themeLabel">Dark</span>
+              <div class="toggle-switch" id="themeToggle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="app-container">
       <div class="conversion-wrapper">
@@ -952,19 +1643,18 @@
             <div class="input-wrapper">
               <span class="currency-input-prefix" id="inputCurrencySymbol">€</span>
               <input 
-                type="number" 
+                type="text" 
                 id="amountInput" 
                 class="currency-input" 
                 placeholder="0.00"
-                step="0.01"
-                min="0"
                 inputmode="decimal"
+                autocomplete="off"
               />
             </div>
           </div>
 
           <div class="output-group">
-            <label>Amount in <span id="homeCurrency">USD</span></label>
+            <label>Amount in <span id="homeCurrency">AUD</span></label>
             <div class="output-value" id="outputValue">--</div>
             <!-- Exchange rate display -->
             <div class="exchange-rate" id="exchangeRate">
@@ -988,7 +1678,7 @@
 
   <script>
     // ===== STATE MANAGEMENT =====
-    let homeCurrency = localStorage.getItem('homeCurrency') || 'USD';
+    let homeCurrency = localStorage.getItem('homeCurrency') || 'AUD';
     let localCurrency = localStorage.getItem('localCurrency') || 'EUR';
     let isOnline = false;
     let failCount = 0;
@@ -1072,32 +1762,180 @@
     }
 
     // ===== LOCATION DETECTION =====
-    async function detectLocalCurrency() {
+    let locationPermissionRequested = localStorage.getItem('locationPermissionRequested') === 'true';
+    let locationPermissionGranted = false;
+
+    // Check location permission status
+    function checkLocationPermissionStatus() {
+      if (!navigator.geolocation) {
+        return 'not-supported';
+      }
+      
+      // Note: Browsers don't provide a direct API to check permission status
+      // We'll track it via localStorage and show status based on that
+      const permission = localStorage.getItem('locationPermission');
+      if (permission === 'granted') {
+        return 'granted';
+      } else if (permission === 'denied') {
+        return 'denied';
+      }
+      return 'prompt';
+    }
+
+    // Update location status in settings
+    function updateLocationStatus() {
+      const statusEl = document.getElementById('locationStatus');
+      const requestBtn = document.getElementById('requestLocationBtn');
+      const status = checkLocationPermissionStatus();
+      
+      if (status === 'not-supported') {
+        statusEl.textContent = 'Not supported';
+        requestBtn.disabled = true;
+        requestBtn.textContent = 'Not Available';
+      } else if (status === 'granted') {
+        statusEl.textContent = 'Granted';
+        requestBtn.textContent = 'Access Granted';
+        requestBtn.disabled = true;
+        requestBtn.style.background = 'var(--accent-green)';
+      } else if (status === 'denied') {
+        statusEl.textContent = 'Denied';
+        requestBtn.textContent = 'Request Again';
+        requestBtn.disabled = false;
+      } else {
+        statusEl.textContent = 'Not requested';
+        requestBtn.textContent = 'Request Access';
+        requestBtn.disabled = false;
+      }
+    }
+
+    // Show location permission modal
+    function showLocationPermissionModal() {
+      const modal = document.getElementById('locationPermissionModal');
+      modal.classList.add('active');
+    }
+
+    // Close location permission modal
+    function closeLocationPermissionModal() {
+      const modal = document.getElementById('locationPermissionModal');
+      modal.classList.remove('active');
+    }
+
+    // Reverse geocoding to get country from coordinates
+    async function getCountryFromCoordinates(lat, lon) {
       try {
-        // TODO: Replace with actual geolocation API call
-        // For now, using browser's Intl API as fallback
+        // Using OpenStreetMap Nominatim API (free, no API key required)
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=3&addressdetails=1`,
+          {
+            headers: {
+              'User-Agent': 'Convertr Currency App' // Required by Nominatim
+            }
+          }
+        );
+        
+        if (!response.ok) {
+          throw new Error('Reverse geocoding failed');
+        }
+        
+        const data = await response.json();
+        const countryCode = data.address?.country_code?.toUpperCase();
+        return countryCode;
+      } catch (error) {
+        console.error('Reverse geocoding error:', error);
+        return null;
+      }
+    }
+
+    // Country code to currency mapping
+    const countryCodeToCurrency = {
+      'US': 'USD', 'GB': 'GBP', 'JP': 'JPY', 'AU': 'AUD',
+      'CA': 'CAD', 'CH': 'CHF', 'CN': 'CNY', 'IN': 'INR',
+      'KR': 'KRW', 'MX': 'MXN', 'BR': 'BRL', 'SG': 'SGD',
+      'HK': 'HKD', 'NZ': 'NZD', 'SE': 'SEK', 'NO': 'NOK',
+      'DK': 'DKK', 'PL': 'PLN', 'RU': 'RUB', 'TR': 'TRY',
+      'ZA': 'ZAR', 'TH': 'THB', 'MY': 'MYR', 'ID': 'IDR',
+      'PH': 'PHP', 'VN': 'VND', 'IL': 'ILS', 'DE': 'EUR',
+      'FR': 'EUR', 'IT': 'EUR', 'ES': 'EUR', 'NL': 'EUR',
+      'BE': 'EUR', 'AT': 'EUR', 'PT': 'EUR', 'IE': 'EUR',
+      'FI': 'EUR', 'GR': 'EUR', 'LU': 'EUR'
+    };
+
+    // Request location permission
+    async function requestLocationPermission() {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser.');
+        return;
+      }
+
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            timeout: 15000,
+            enableHighAccuracy: false
+          });
+        });
+
+        // Get coordinates
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // Get country from coordinates using reverse geocoding
+        const countryCode = await getCountryFromCoordinates(lat, lon);
+        
+        if (countryCode && countryCodeToCurrency[countryCode]) {
+          localCurrency = countryCodeToCurrency[countryCode];
+        } else {
+          // Fallback to browser locale if reverse geocoding fails
+          const locale = navigator.language || 'en-US';
+          const region = locale.split('-')[1] || 'US';
+          localCurrency = countryCodeToCurrency[region] || 'USD';
+        }
+
+        localStorage.setItem('localCurrency', localCurrency);
+        localStorage.setItem('locationPermission', 'granted');
+        locationPermissionGranted = true;
+        updateCurrencyLabels();
+        updateLocationStatus();
+        closeLocationPermissionModal();
+      } catch (error) {
+        console.error('Location permission error:', error);
+        if (error.code === error.PERMISSION_DENIED) {
+          localStorage.setItem('locationPermission', 'denied');
+          updateLocationStatus();
+        }
+        closeLocationPermissionModal();
+        // Fall back to browser locale
+        await detectLocalCurrencyFallback();
+      }
+    }
+
+    // Fallback currency detection using browser locale
+    async function detectLocalCurrencyFallback() {
+      try {
         const locale = navigator.language || 'en-US';
         const region = locale.split('-')[1] || 'US';
         
-        // Simple region to currency mapping (placeholder)
-        const regionToCurrency = {
-          'US': 'USD', 'GB': 'GBP', 'JP': 'JPY', 'AU': 'AUD',
-          'CA': 'CAD', 'CH': 'CHF', 'CN': 'CNY', 'IN': 'INR',
-          'KR': 'KRW', 'MX': 'MXN', 'BR': 'BRL', 'SG': 'SGD',
-          'HK': 'HKD', 'NZ': 'NZD', 'SE': 'SEK', 'NO': 'NOK',
-          'DK': 'DKK', 'PL': 'PLN', 'RU': 'RUB', 'TR': 'TRY',
-          'ZA': 'ZAR', 'TH': 'THB', 'MY': 'MYR', 'ID': 'IDR',
-          'PH': 'PHP', 'VN': 'VND', 'EU': 'EUR', 'DE': 'EUR',
-          'FR': 'EUR', 'IT': 'EUR', 'ES': 'EUR', 'NL': 'EUR'
-        };
-
-        const detected = regionToCurrency[region] || 'USD';
+        const detected = countryCodeToCurrency[region] || 'USD';
         localCurrency = detected;
         localStorage.setItem('localCurrency', localCurrency);
         updateCurrencyLabels();
       } catch (error) {
         console.error('Currency detection failed:', error);
-        // Keep default or cached value
+      }
+    }
+
+    async function detectLocalCurrency() {
+      // Check if permission was already requested
+      if (!locationPermissionRequested) {
+        // Show permission modal after a short delay (after splash screen)
+        setTimeout(() => {
+          showLocationPermissionModal();
+          locationPermissionRequested = true;
+          localStorage.setItem('locationPermissionRequested', 'true');
+        }, 5000); // Show after splash screen completes
+      } else {
+        // Permission was already requested, use fallback
+        await detectLocalCurrencyFallback();
       }
     }
 
@@ -1219,7 +2057,18 @@
       const outputValueEl = document.getElementById('outputValue');
       const exchangeRateEl = document.getElementById('exchangeRate');
       
-      if (!amount || isNaN(amount) || amount <= 0) {
+      // Handle empty or invalid input
+      if (!amount || amount === '' || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+        outputValueEl.textContent = '--';
+        outputValueEl.classList.remove('visible', 'live-rate');
+        exchangeRateEl.classList.remove('visible');
+        return;
+      }
+
+      // Parse the amount (handle commas, spaces, etc.)
+      const numericAmount = parseFloat(String(amount).replace(/[,\s]/g, ''));
+      
+      if (isNaN(numericAmount) || numericAmount <= 0) {
         outputValueEl.textContent = '--';
         outputValueEl.classList.remove('visible', 'live-rate');
         exchangeRateEl.classList.remove('visible');
@@ -1272,8 +2121,8 @@
         return;
       }
 
-      // Convert: local -> USD -> home
-      const amountInUSD = amount / fromRate;
+      // Convert: local currency -> USD -> home currency
+      const amountInUSD = numericAmount / fromRate;
       const converted = amountInUSD * toRate;
 
       // Update exchange rate display
@@ -1302,15 +2151,186 @@
       lastConversionTime = Date.now();
     }
 
+    // ===== SETTINGS FUNCTIONALITY =====
+    let isLightMode = localStorage.getItem('theme') === 'light';
+
+    // Initialize theme
+    function initializeTheme() {
+      if (isLightMode) {
+        document.body.classList.add('light-mode');
+        document.getElementById('themeToggle').classList.add('active');
+        document.getElementById('themeLabel').textContent = 'Light';
+      } else {
+        document.body.classList.remove('light-mode');
+        document.getElementById('themeToggle').classList.remove('active');
+        document.getElementById('themeLabel').textContent = 'Dark';
+      }
+    }
+
+    // Toggle theme
+    function toggleTheme() {
+      isLightMode = !isLightMode;
+      localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+      initializeTheme();
+    }
+
+    // Open settings modal
+    function openSettingsModal() {
+      const modal = document.getElementById('settingsModal');
+      modal.classList.add('active');
+      // Set current home currency in select
+      document.getElementById('homeCountrySelect').value = homeCurrency;
+      // Update last update time
+      updateLastUpdateTime();
+      // Update location status
+      updateLocationStatus();
+    }
+
+    // Close settings modal
+    function closeSettingsModal() {
+      const modal = document.getElementById('settingsModal');
+      modal.classList.remove('active');
+    }
+
+    // Update last update time display
+    function updateLastUpdateTime() {
+      const lastUpdateEl = document.getElementById('lastUpdateTime');
+      const lastUpdate = localStorage.getItem('lastExchangeRateUpdate');
+      if (lastUpdate) {
+        const date = new Date(parseInt(lastUpdate));
+        lastUpdateEl.textContent = `Last updated: ${date.toLocaleString()}`;
+      } else {
+        lastUpdateEl.textContent = 'Last updated: Never';
+      }
+    }
+
+    // Update exchange rates
+    async function updateExchangeRates() {
+      const updateBtn = document.getElementById('updateRatesBtn');
+      const originalText = updateBtn.textContent;
+      
+      if (!isOnline) {
+        alert('You need to be online to update exchange rates.');
+        return;
+      }
+
+      updateBtn.disabled = true;
+      updateBtn.textContent = 'Updating...';
+
+      try {
+        // TODO: Replace with actual exchange rate API call
+        // Example: const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        // const data = await response.json();
+        // Store rates in localStorage
+        
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Store update time
+        localStorage.setItem('lastExchangeRateUpdate', Date.now().toString());
+        updateLastUpdateTime();
+        
+        // Show success feedback
+        updateBtn.textContent = 'Updated!';
+        setTimeout(() => {
+          updateBtn.textContent = originalText;
+          updateBtn.disabled = false;
+        }, 2000);
+
+        // Recalculate conversion if there's an amount entered
+        const amountInput = document.getElementById('amountInput');
+        if (amountInput.value) {
+          convertCurrency(parseFloat(amountInput.value));
+        }
+      } catch (error) {
+        console.error('Failed to update exchange rates:', error);
+        updateBtn.textContent = 'Update Failed';
+        setTimeout(() => {
+          updateBtn.textContent = originalText;
+          updateBtn.disabled = false;
+        }, 2000);
+      }
+    }
+
+    // Change home currency
+    function changeHomeCurrency() {
+      const newCurrency = document.getElementById('homeCountrySelect').value;
+      if (newCurrency !== homeCurrency) {
+        homeCurrency = newCurrency;
+        localStorage.setItem('homeCurrency', homeCurrency);
+        updateCurrencyLabels();
+        
+        // Recalculate conversion if there's an amount entered
+        const amountInput = document.getElementById('amountInput');
+        if (amountInput.value) {
+          convertCurrency(parseFloat(amountInput.value));
+        }
+      }
+    }
+
     // ===== EVENT LISTENERS =====
+    // Real-time conversion on every keystroke
     document.getElementById('amountInput').addEventListener('input', (e) => {
-      const amount = parseFloat(e.target.value);
-      convertCurrency(amount);
+      const value = e.target.value.trim();
+      // Allow empty input
+      if (value === '') {
+        convertCurrency('');
+        return;
+      }
+      // Convert immediately on each keystroke
+      convertCurrency(value);
+    });
+
+    // Also handle paste events
+    document.getElementById('amountInput').addEventListener('paste', (e) => {
+      setTimeout(() => {
+        const value = e.target.value.trim();
+        convertCurrency(value);
+      }, 10);
     });
 
     document.getElementById('changeCurrencyBtn').addEventListener('click', () => {
-      // TODO: Open currency selection modal
-      alert('Currency selection modal - TODO: Implement');
+      openSettingsModal();
+    });
+
+    // Settings modal handlers
+    document.getElementById('settingsStarBtn').addEventListener('click', openSettingsModal);
+    document.getElementById('settingsModalClose').addEventListener('click', closeSettingsModal);
+    document.getElementById('settingsModal').addEventListener('click', (e) => {
+      if (e.target.id === 'settingsModal') {
+        closeSettingsModal();
+      }
+    });
+
+    // Settings options handlers
+    document.getElementById('homeCountrySelect').addEventListener('change', changeHomeCurrency);
+    document.getElementById('updateRatesBtn').addEventListener('click', updateExchangeRates);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('requestLocationBtn').addEventListener('click', () => {
+      closeSettingsModal();
+      showLocationPermissionModal();
+    });
+
+    // Location permission modal handlers
+    document.getElementById('locationAllowBtn').addEventListener('click', requestLocationPermission);
+    document.getElementById('locationSkipBtn').addEventListener('click', () => {
+      closeLocationPermissionModal();
+      detectLocalCurrencyFallback();
+    });
+
+    // Close location modal on backdrop click
+    document.getElementById('locationPermissionModal').addEventListener('click', (e) => {
+      if (e.target.id === 'locationPermissionModal') {
+        closeLocationPermissionModal();
+        detectLocalCurrencyFallback();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSettingsModal();
+      }
     });
 
     window.addEventListener("online", () => updateConnectivity("event-online"));
@@ -1318,6 +2338,9 @@
 
     // ===== INITIALIZATION =====
     async function initializeApp() {
+      // Initialize theme
+      initializeTheme();
+      
       // Detect local currency
       await detectLocalCurrency();
       

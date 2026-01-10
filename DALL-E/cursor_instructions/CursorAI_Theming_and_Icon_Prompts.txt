@@ -1,0 +1,14 @@
+Add dynamic theming to Convertr.
+
+- Use `displayPreference` to show either currency symbols or 3-letter codes
+- Show star icon in header:
+  - Opens settings menu
+  - Options:
+    - Change home country
+    - Refresh currency database
+    - Toggle dark/light mode
+- Style star icon based on theme:
+  - Light mode: dark icon
+  - Dark mode: white or cyan icon
+
+Use TailwindCSS or standard CSS.

@@ -1,0 +1,4 @@
+Primary: Inter
+ (Google Fonts / open source)
+
+Alternatives: Manrope, SF Pro (native iOS), or system default

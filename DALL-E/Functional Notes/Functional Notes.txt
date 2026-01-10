@@ -1,0 +1,11 @@
+No login
+
+Required location permission
+
+Stored locally
+
+Currency preference (symbol vs code) stored on setup
+
+Settings only accessible via star icon
+
+All data local only — no external collection

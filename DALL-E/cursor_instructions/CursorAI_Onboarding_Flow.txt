@@ -1,0 +1,29 @@
+Create a 3-step onboarding flow for the Convertr app:
+
+Step 1: Ask for home country.
+- Title: "Where’s home for you?"
+- Searchable input field with:
+  - Country name
+  - ISO 3-letter code (e.g., AUS)
+  - Currency code (e.g., AUD)
+- Filter the list in real time based on input
+- Show country name, flag, and currency code
+- Store as: homeCurrencyCountry
+
+Step 2: Ask for geolocation permission.
+- Title: "Allow location access?"
+- Message: "To show you accurate prices wherever you go, we need to access your location."
+- Button: “Allow”
+- If denied: Show message: "Convertr requires location to function. Please enable it in your settings."
+- Store result, don't ask again unless user changes settings
+- Make it a required permission
+
+Step 3: Ask how to display currency.
+- Title: "How do you want to display currencies?"
+- Options:
+  - Symbols (e.g. $, €, ¥)
+  - 3-letter codes (e.g. USD, EUR, JPY)
+- Required selection
+- Store as: displayPreference ("symbol" or "code")
+
+After setup, proceed to main UI.
