@@ -979,15 +979,19 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    body.light-mode .currency-input {
+    body.light-mode .payment-amount-input {
       background: white;
       border-color: var(--soft-grey);
       color: var(--deep-charcoal);
     }
 
-    body.light-mode .currency-input:focus {
+    body.light-mode .payment-amount-input:focus {
       border-color: var(--primary-blue);
       background: white;
+    }
+
+    body.light-mode .payment-conversion-value {
+      color: var(--soft-grey);
     }
 
     body.light-mode .output-value {
@@ -1053,68 +1057,106 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .input-group {
-      margin-bottom: 28px;
+    /* ===== PAYMENT INPUT SECTION (Section 1) ===== */
+    .payment-input-section {
+      margin-bottom: 32px;
     }
 
-    .input-group label {
+    .payment-input-label {
       display: block;
       font-size: 14px;
       font-weight: 500;
       color: var(--soft-grey);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      text-transform: none;
+      letter-spacing: 0;
     }
 
-    .input-wrapper {
-      position: relative;
+    .payment-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .currency-input-prefix {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+    .payment-currency-symbol {
       font-size: 32px;
       font-weight: 600;
       color: var(--glow-cyan);
+      flex-shrink: 0;
+      user-select: none;
       pointer-events: none;
-      z-index: 1;
     }
 
-    .currency-input {
-      width: 100%;
-      padding: 18px 20px 18px 60px;
+    .payment-amount-input {
+      flex: 1;
+      padding: 18px 20px;
       font-size: 32px;
       font-weight: 600;
       border: 2px solid rgba(221, 226, 230, 0.2);
       border-radius: 16px;
       background: rgba(248, 249, 250, 0.08);
-      color: var(--rich-white); /* #F8F9FA - high contrast white text */
+      color: var(--rich-white);
       transition: all 0.3s ease;
-      /* Touch-optimized: ensure adequate touch target */
-      min-height: 56px;
+      min-height: 56px; /* Exceeds 44px accessibility requirement */
       -webkit-tap-highlight-color: rgba(0, 122, 255, 0.1);
       touch-action: manipulation;
     }
 
-    .currency-input::placeholder {
+    .payment-amount-input::placeholder {
       color: rgba(248, 249, 250, 0.3);
     }
 
-    .currency-input:focus {
+    .payment-amount-input:focus {
       outline: none;
-      border-color: var(--primary-blue); /* #007AFF */
+      border-color: var(--primary-blue);
       background: rgba(248, 249, 250, 0.12);
       box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
     }
 
-    .currency-input:focus-visible {
-      outline: 2px solid var(--glow-cyan); /* #00F0FF */
+    .payment-amount-input:focus-visible {
+      outline: 2px solid var(--glow-cyan);
       outline-offset: 2px;
     }
 
+    /* ===== PAYMENT CONVERSION SECTION (Section 2) ===== */
+    .payment-conversion-section {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(221, 226, 230, 0.15);
+    }
+
+    .payment-conversion-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--soft-grey);
+      margin-bottom: 8px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .payment-conversion-value {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--soft-grey);
+      margin-top: 4px;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.3s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .payment-conversion-value.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #homeCurrencySymbol {
+      margin-right: 4px;
+    }
+
+    /* Legacy output-value styles for compatibility */
     .output-group {
       margin-top: 32px;
       padding-top: 28px;
@@ -1134,12 +1176,12 @@
     .output-value {
       font-size: 40px;
       font-weight: 700;
-      color: var(--rich-white); /* #F8F9FA - high contrast white text */
+      color: var(--rich-white);
       margin-top: 12px;
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.4s ease;
-      text-shadow: 0 0 20px rgba(0, 240, 255, 0.2); /* Subtle glow accent */
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
     }
 
     .output-value.visible {
@@ -1318,14 +1360,18 @@
         font-size: 12px;
       }
 
-      .currency-input {
+      .payment-amount-input {
         font-size: 28px;
-        padding: 16px 18px 16px 50px;
+        padding: 16px 18px;
+        min-height: 44px;
       }
 
-      .currency-input-prefix {
+      .payment-currency-symbol {
         font-size: 28px;
-        left: 18px;
+      }
+
+      .payment-conversion-value {
+        font-size: 18px;
       }
 
       .output-value {
@@ -1418,14 +1464,17 @@
         padding: 36px;
       }
 
-      .currency-input {
+      .payment-amount-input {
         font-size: 36px;
-        padding: 20px 24px 20px 70px;
+        padding: 20px 24px;
       }
 
-      .currency-input-prefix {
+      .payment-currency-symbol {
         font-size: 36px;
-        left: 24px;
+      }
+
+      .payment-conversion-value {
+        font-size: 22px;
       }
 
       .output-value {
@@ -1638,14 +1687,17 @@
     <div class="app-container">
       <div class="conversion-wrapper">
         <div class="conversion-card">
-          <div class="input-group">
-            <label id="inputLabel">Amount in <span id="localCurrency">EUR</span></label>
-            <div class="input-wrapper">
-              <span class="currency-input-prefix" id="inputCurrencySymbol">€</span>
+          <!-- SECTION 1: User Input -->
+          <div class="payment-input-section">
+            <label for="amountInput" class="payment-input-label" id="inputLabel">
+              Amount to pay (Local currency – <span id="localCurrency">EUR</span>)
+            </label>
+            <div class="payment-input-wrapper">
+              <span class="payment-currency-symbol" id="inputCurrencySymbol" aria-hidden="true">€</span>
               <input 
                 type="text" 
                 id="amountInput" 
-                class="currency-input" 
+                class="payment-amount-input" 
                 placeholder="0.00"
                 inputmode="decimal"
                 autocomplete="off"
@@ -1653,17 +1705,21 @@
             </div>
           </div>
 
-          <div class="output-group">
-            <label>Amount in <span id="homeCurrency">AUD</span></label>
-            <div class="output-value" id="outputValue">--</div>
-            <!-- Exchange rate display -->
-            <div class="exchange-rate" id="exchangeRate">
-              <span class="exchange-rate-label">Exchange Rate</span>
-              <span>
-                <span class="exchange-rate-value" id="exchangeRateValue">--</span>
-                <span class="exchange-rate-badge cached" id="rateBadge">Cached</span>
-              </span>
+          <!-- SECTION 2: Read-only Conversion -->
+          <div class="payment-conversion-section">
+            <div class="payment-conversion-label">Estimated card charge:</div>
+            <div class="payment-conversion-value" id="outputValue">
+              <span id="homeCurrencySymbol">AUD $</span><span id="convertedAmount">--</span>
             </div>
+          </div>
+          
+          <!-- Hidden exchange rate display (removed from UI per requirements) -->
+          <div class="exchange-rate" id="exchangeRate" style="display: none;">
+            <span class="exchange-rate-label">Exchange Rate</span>
+            <span>
+              <span class="exchange-rate-value" id="exchangeRateValue">--</span>
+              <span class="exchange-rate-badge cached" id="rateBadge">Cached</span>
+            </span>
           </div>
 
           <button class="change-currency-btn" id="changeCurrencyBtn">
@@ -2010,58 +2066,60 @@
 
     function updateCurrencyLabels() {
       document.getElementById('localCurrency').textContent = localCurrency;
-      document.getElementById('homeCurrency').textContent = homeCurrency;
-      // Update input currency symbol prefix
+      // Update input currency symbol (outside input)
       const inputSymbolEl = document.getElementById('inputCurrencySymbol');
       if (inputSymbolEl) {
         inputSymbolEl.textContent = currencySymbols[localCurrency] || localCurrency;
       }
+      // Update home currency symbol for conversion display
+      const homeSymbolEl = document.getElementById('homeCurrencySymbol');
+      if (homeSymbolEl) {
+        homeSymbolEl.textContent = `${homeCurrency} ${currencySymbols[homeCurrency] || '$'}`;
+      }
+      // Update aria-labels for accessibility
+      const amountInput = document.getElementById('amountInput');
+      if (amountInput) {
+        const localCurrencyName = localCurrency === 'EUR' ? 'euros' :
+                                  localCurrency === 'USD' ? 'US dollars' :
+                                  localCurrency === 'GBP' ? 'British pounds' :
+                                  localCurrency === 'JPY' ? 'Japanese yen' :
+                                  localCurrency === 'AUD' ? 'Australian dollars' : `${localCurrency} dollars`;
+        amountInput.setAttribute('aria-label', `Amount to pay, local currency, ${localCurrencyName}`);
+      }
+      const outputValueEl = document.getElementById('outputValue');
+      if (outputValueEl) {
+        const homeCurrencyName = homeCurrency === 'AUD' ? 'Australian dollars' : 
+                                 homeCurrency === 'USD' ? 'US dollars' :
+                                 homeCurrency === 'EUR' ? 'euros' :
+                                 homeCurrency === 'GBP' ? 'British pounds' :
+                                 homeCurrency === 'JPY' ? 'Japanese yen' : `${homeCurrency} dollars`;
+        outputValueEl.setAttribute('aria-label', `Estimated card charge, ${homeCurrencyName}`);
+      }
     }
 
-    // Update exchange rate display
+    // Update exchange rate display (hidden from UI per requirements)
     function updateExchangeRateDisplay(fromRate, toRate, isLive = false) {
-      const exchangeRateEl = document.getElementById('exchangeRate');
-      const exchangeRateValueEl = document.getElementById('exchangeRateValue');
-      const rateBadgeEl = document.getElementById('rateBadge');
-      
+      // Exchange rate display removed from UI - kept for internal tracking only
       if (!fromRate || !toRate) {
-        exchangeRateEl.classList.remove('visible');
         return;
       }
-
       // Calculate exchange rate (1 unit of local currency = X units of home currency)
       const rate = toRate / fromRate;
       currentExchangeRate = rate;
-      
-      // Format rate display
-      if (rate >= 1) {
-        exchangeRateValueEl.textContent = `1 ${localCurrency} = ${rate.toFixed(4)} ${homeCurrency}`;
-      } else {
-        exchangeRateValueEl.textContent = `1 ${localCurrency} = ${rate.toFixed(6)} ${homeCurrency}`;
-      }
-
-      // Update badge
-      if (isLive && isOnline) {
-        rateBadgeEl.textContent = 'Live';
-        rateBadgeEl.className = 'exchange-rate-badge live';
-      } else {
-        rateBadgeEl.textContent = 'Cached';
-        rateBadgeEl.className = 'exchange-rate-badge cached';
-      }
-
-      // Show exchange rate with animation
-      exchangeRateEl.classList.add('visible');
     }
 
     async function convertCurrency(amount) {
-      const outputValueEl = document.getElementById('outputValue');
-      const exchangeRateEl = document.getElementById('exchangeRate');
+      const convertedAmountEl = document.getElementById('convertedAmount');
+      const conversionValueEl = document.getElementById('outputValue');
       
       // Handle empty or invalid input
       if (!amount || amount === '' || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
-        outputValueEl.textContent = '--';
-        outputValueEl.classList.remove('visible', 'live-rate');
-        exchangeRateEl.classList.remove('visible');
+        if (convertedAmountEl) {
+          convertedAmountEl.textContent = '--';
+        }
+        if (conversionValueEl) {
+          conversionValueEl.classList.remove('visible');
+        }
         return;
       }
 
@@ -2069,9 +2127,12 @@
       const numericAmount = parseFloat(String(amount).replace(/[,\s]/g, ''));
       
       if (isNaN(numericAmount) || numericAmount <= 0) {
-        outputValueEl.textContent = '--';
-        outputValueEl.classList.remove('visible', 'live-rate');
-        exchangeRateEl.classList.remove('visible');
+        if (convertedAmountEl) {
+          convertedAmountEl.textContent = '--';
+        }
+        if (conversionValueEl) {
+          conversionValueEl.classList.remove('visible');
+        }
         return;
       }
 
@@ -2115,9 +2176,12 @@
       const toRate = rates[homeCurrency] || 1.0;
 
       if (!fromRate || !toRate) {
-        outputValueEl.textContent = 'Rate unavailable';
-        outputValueEl.classList.remove('visible', 'live-rate');
-        exchangeRateEl.classList.remove('visible');
+        if (convertedAmountEl) {
+          convertedAmountEl.textContent = '--';
+        }
+        if (conversionValueEl) {
+          conversionValueEl.classList.remove('visible');
+        }
         return;
       }
 
@@ -2125,28 +2189,23 @@
       const amountInUSD = numericAmount / fromRate;
       const converted = amountInUSD * toRate;
 
-      // Update exchange rate display
-      const isLive = isOnline && (Date.now() - (lastConversionTime || 0) < 60000); // Consider live if online and recent
-      updateExchangeRateDisplay(fromRate, toRate, isLive);
-
-      // Update output value with animation
-      outputValueEl.textContent = `${currencySymbols[homeCurrency] || ''}${converted.toFixed(2)}`;
+      // Update conversion display (read-only section)
+      if (convertedAmountEl) {
+        convertedAmountEl.textContent = converted.toFixed(2);
+      }
       
       // Remove previous animation classes
-      outputValueEl.classList.remove('visible', 'live-rate');
-      
-      // Trigger reflow to restart animation
-      void outputValueEl.offsetWidth;
-      
-      // Add fade-in animation
-      setTimeout(() => {
-        outputValueEl.classList.add('visible');
+      if (conversionValueEl) {
+        conversionValueEl.classList.remove('visible');
         
-        // Add pulse/bounce effect if using live rate
-        if (isLive && isOnline) {
-          outputValueEl.classList.add('live-rate');
-        }
-      }, 10);
+        // Trigger reflow to restart animation
+        void conversionValueEl.offsetWidth;
+        
+        // Add fade-in animation
+        setTimeout(() => {
+          conversionValueEl.classList.add('visible');
+        }, 10);
+      }
 
       lastConversionTime = Date.now();
     }
@@ -2269,24 +2328,61 @@
     }
 
     // ===== EVENT LISTENERS =====
-    // Real-time conversion on every keystroke
-    document.getElementById('amountInput').addEventListener('input', (e) => {
-      const value = e.target.value.trim();
-      // Allow empty input
-      if (value === '') {
-        convertCurrency('');
-        return;
+    // Restrict input to numbers only (with decimal point)
+    const amountInput = document.getElementById('amountInput');
+    
+    // Only allow numbers and decimal point
+    amountInput.addEventListener('input', (e) => {
+      let value = e.target.value;
+      // Remove any non-numeric characters except decimal point
+      value = value.replace(/[^0-9.]/g, '');
+      // Ensure only one decimal point
+      const parts = value.split('.');
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('');
       }
+      // Update input value
+      if (e.target.value !== value) {
+        e.target.value = value;
+      }
+      
       // Convert immediately on each keystroke
       convertCurrency(value);
     });
 
-    // Also handle paste events
-    document.getElementById('amountInput').addEventListener('paste', (e) => {
+    // Handle paste events - sanitize pasted content
+    amountInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+      // Clean pasted text to only allow numbers and decimal point
+      let cleaned = pastedText.replace(/[^0-9.]/g, '');
+      const parts = cleaned.split('.');
+      if (parts.length > 2) {
+        cleaned = parts[0] + '.' + parts.slice(1).join('');
+      }
+      // Set cursor position after pasted content
+      const start = e.target.selectionStart || 0;
+      const end = e.target.selectionEnd || 0;
+      const currentValue = e.target.value;
+      const newValue = currentValue.substring(0, start) + cleaned + currentValue.substring(end);
+      e.target.value = newValue;
+      // Position cursor after pasted content
+      const newCursorPos = start + cleaned.length;
       setTimeout(() => {
-        const value = e.target.value.trim();
-        convertCurrency(value);
+        e.target.setSelectionRange(newCursorPos, newCursorPos);
+        convertCurrency(newValue);
       }, 10);
+    });
+
+    // Ensure cursor starts inside the input field (not before currency symbol)
+    amountInput.addEventListener('focus', (e) => {
+      // If input is empty, cursor is already in the right place
+      // If input has value, ensure cursor is at the end
+      if (e.target.value) {
+        setTimeout(() => {
+          e.target.setSelectionRange(e.target.value.length, e.target.value.length);
+        }, 0);
+      }
     });
 
     document.getElementById('changeCurrencyBtn').addEventListener('click', () => {

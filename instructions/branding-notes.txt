@@ -1,0 +1,15 @@
+Branding Guidelines for Convertr App
+
+Color Palette:
+- Primary: #007AFF (iOS Blue)
+- Midnight: #0A0F2C (Dark background)
+- Cyan Glow: #00F0FF (Accent/Highlight)
+- White: #F8F9FA (Light background)
+- Soft Grey: #DDE2E6 (Subtle borders/dividers)
+- Charcoal: #1C1C1E (Dark text/elements)
+- Green Accent: #30D158 (Success/Positive actions)
+
+Assets Location:
+- Icons: public/assets/icons/
+- Images: public/assets/images/
+- Branding: public/assets/Branding/

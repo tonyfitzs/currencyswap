@@ -1,0 +1,7 @@
+App icons (dark + light)
+
+Transparent versions
+
+Icon lockup with name
+
+Color palette .json + swatch
